@@ -44,6 +44,7 @@ def create_app(test_config=None):
     def weather():
         city = flask.request.args.get('city')
         source = flask.request.args.get('source')
+        country = flask.request.args.get('country')
         cur = db.get_db().cursor()
         query = """SELECT w.ob_dt, w.temp, c.name AS city, c.country_code AS country, s.name AS source 
                 FROM weather_data AS w 
@@ -57,6 +58,9 @@ def create_app(test_config=None):
         if source is not None:
             where_conds.append('s.name = ?')
             params.append(source)
+        if country is not None:
+            where_conds.append('c.country_code = ?')
+            params.append(country)
         params = tuple(params)
         if where_conds:
             query += 'WHERE ' + ' AND '.join(where_conds)
