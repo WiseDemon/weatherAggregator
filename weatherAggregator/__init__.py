@@ -16,6 +16,7 @@ def create_app(test_config=None):
 
     if test_config is None:
         app.config['DATABASE'] = os.path.join(app.instance_path, 'weatherAggregator.sqlite')
+        app.config['START_DATABASE'] = os.path.join(app.instance_path, 'start_db.sqlite')
         app.config['API_KEYS_PATH'] = os.path.join(app.instance_path, 'weather_api_keys.json')
         app.config.from_pyfile('config.py', silent=True)
     else:

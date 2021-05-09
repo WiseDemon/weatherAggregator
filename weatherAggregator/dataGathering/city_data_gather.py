@@ -14,6 +14,7 @@ from .exceptions import *
 @with_appcontext
 def add_city(name, country_code):
     """
+    \b
     Add city to the database and fetch it's data
     :param name: city name
     :param country_code: country code as in ISO 3166-1 alpha-2 (2 char)
@@ -62,6 +63,7 @@ def add_city(name, country_code):
 def fetch_city_data(city_name, country_code):
     """
     Fetches city coordinates and id from weather sources
+
     :param city_name: city name
     :param country_code: country code as in ISO 3166-1 alpha-2
     :return: dict {source_1: {id:, lat:, lon:}, ...}
