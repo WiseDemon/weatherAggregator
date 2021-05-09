@@ -64,7 +64,7 @@ def create_app(test_config=None):
         data = {'data': [dict(row) for row in weather_rows]}
         for row in data['data']:
             row['datetime'] = dt.datetime.fromtimestamp(row['ob_dt'])
-        return flask.jsonify(data)
+        return flask.jsonify(data), 200
 
     return app
 
