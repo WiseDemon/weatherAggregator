@@ -1,0 +1,3 @@
+include weatherAggregator/schema.sql
+include weatherAggregator/weather_sources.sql
+global-exclude *.pyc
