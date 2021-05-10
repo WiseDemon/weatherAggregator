@@ -24,8 +24,11 @@ def fetch_weather():
         raise click.ClickException('No cities in the database')
 
     weather_data = []
+    ignored_sources = []
     for row in city_rows:
-        if row['source_name'] == 'openweathermap.org':
+        if row['source_name'] in ignored_sources:
+            continue
+        elif row['source_name'] == 'openweathermap.org':
             func = fetch_weather_openweathermap
         elif row['source_name'] == 'weatherbit.io':
             func = fetch_weather_weatherbit
@@ -36,7 +39,10 @@ def fetch_weather():
         except NoApiKeysError as err:
             raise click.ClickException('No API keys. Add keys using set-keys command.')
         except FetchError as err:
-            raise click.ClickException("can't fetch weather data\n" + str(err)) from err
+            # Remove source from current fetching session and print warning
+            click.echo(f"Warning: can't fetch weather from {row['source_name']}:\n" + str(err))
+            ignored_sources.append(row['source_name'])
+            #raise click.ClickException("can't fetch weather data\n" + str(err)) from err
 
         weather_data.append((row['city_id'], row['source_id'], data['ob_time'], data['temp']))
 
